@@ -7,6 +7,8 @@ use Illuminate\Http\Response;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
+use App\Exports\OrdersExport;
+use Excel;
 // use Datatables;
 use Yajra\DataTables\DataTables;
 
@@ -130,6 +132,11 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function Export()
+    {
+        return Excel::download(new OrdersExport, 'orderdetails.xlsx');
     }
 
 }

@@ -79,3 +79,7 @@ Route::post('/checkout/getCity', [App\Http\Controllers\CheckoutController::class
 Route::get('/order/show', [App\Http\Controllers\OrderController::class, 'show'])->name('order.show');
 
 Route::post('/order/update-status', [App\Http\Controllers\CartController::class, 'updateStatus'])->name('order.updateStatus');
+
+Route::get('/export', [App\Http\Controllers\OrderController::class, 'Export'])->name('export');
+
+Route::post('/import', [App\Http\Controllers\ProductController::class, 'Import'])->name('import');

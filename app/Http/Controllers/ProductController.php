@@ -7,8 +7,10 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
+use App\Imports\ProductsImport;
 use DataTables;
 use File;
+use Excel;
 
 class ProductController extends Controller
 {
@@ -121,5 +123,9 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Product has been deleted successfully');
     }
 
-    
+    public function Import()
+    {
+        Excel::import(new ProductsImport, request()->file('file'));
+        return back();
+    }   
 }

@@ -2,6 +2,7 @@
 
 @section('content')
 
+
 <div class="container">
     <div class="row">
         <div class="col-lg-12 margin-tb">
@@ -16,12 +17,17 @@
     <div class="row">
         <div>
             <a class="btn btn-outline-success mb-2" href="{{ route('products.create') }}">Add New Product</a>
+            <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <button class="w-50 btn btn-warning">Import Products</button><input type="file" name="file" class="form-control">
+            </form>
         </div>
 
-    </div>
 
+    </div>
+    
 <hr>
-   <table class="table table-bordered data-table">
+<table class="table table-bordered data-table">
        <thead>
            <th>Id</th>
            <th>Product Name</th>
@@ -34,7 +40,7 @@
 
         <!-- @foreach($products as $product) -->
         <tbody>
-        
+            
             <!-- <td>{{ $product->id }}</td>
             <td>{{ $product->prodname }}</td>
             <td>{{ $product->details }}</td>
@@ -42,9 +48,9 @@
             <td>{{ $product->name }}</td>
             <td>
                 <form action="{{ route('products.index', $product->id) }}" method="GET">
-
+                    
                     <a href="{{ route('products.edit', $product->id) }}" class="btn btn-outline-info">Edit</a>
-
+                    
                     <a href="{{ route('products.destroy', $product->id) }}" class="btn btn-outline-danger">DELETE</a>
                     
                     @csrf
@@ -59,8 +65,8 @@
 </div>
 
     @yield('content')
-@endsection
-
+    @endsection
+    
 @push('scripts')
 <script type="text/javascript">
 $(document).ready( function () {
@@ -85,6 +91,7 @@ $(document).ready( function () {
         ]
     });
 } );
+
 </script>
 
 @endpush

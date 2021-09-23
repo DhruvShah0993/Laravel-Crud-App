@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Order;
+use App\Models\User;
 use Auth;
 use Mail;
 
@@ -17,10 +18,10 @@ class OrderObserver
     public function created(Order $order)
     {
         // dd($order);
-        $order = Order::leftjoin('users', 'users.id', 'orders.user_id')
-                    ->select('orders.*','users.email')
-                    ->where('orders.id',$order->id)
-                    ->first();
+        // $order = Order::leftjoin('users', 'users.id', 'orders.user_id')
+        //             ->select('orders.*','users.email')
+        //             ->where('orders.id',$order->id)
+        //             ->first();
         // dd($order);
         // $name = Auth::user()->name;
         // $email = Auth::user()->email;
@@ -28,7 +29,7 @@ class OrderObserver
 
             'title' => 'Your order has been Placed',
             'body' => 'DS Shop Test mail',
-            'email'=> $order->email
+            'email'=> Auth::user()->email,
         ];
         
         // $details = array('name' => Auth::user()->name, 'body' => "A testing mail", 'email' => Auth::user()->email); 
@@ -58,23 +59,20 @@ class OrderObserver
         // dd($order);
         // $name = Auth::user()->name;
         // $email = Auth::user()->email;
-                $details=[
+        $details = [
 
-                'title' => 'Your order has been Placed',
-                'body' => 'DS Shop Test mail',
-                'email'=> $order->email
-                ];
+        'title' => 'Your order has been Placed',
+        'body' => 'DS Shop Test mail',
+        'email'=> Auth::user()->email,
+        ];
 
-                // $details = array('name' => Auth::user()->name, 'body' => "A testing mail", 'email' => Auth::user()->email); 
+        // $details = array('name' => Auth::user()->name, 'body' => "A testing mail", 'email' => Auth::user()->email); 
 
-                $mail = Mail::send('emails.TestMail', ['details' => $details], function($message) use ($details) {
-                $message->to($details['email']) 
-                        ->subject('DS Shop Test Mail');
-                $message->from('dhruv1.elsner@gmail.com', 'DS Shop');
-                });
-
-// return view('order.show', compact('orders'))->with('success', 'Email sent');
-
+        $mail = Mail::send('emails.TestMail', ['details' => $details], function($message) use ($details) {
+        $message->to($details['email']) 
+                ->subject('DS Shop Test Mail');
+        $message->from('dhruv1.elsner@gmail.com', 'DS Shop');
+        });
     }
 
     /**

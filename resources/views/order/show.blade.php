@@ -4,9 +4,16 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12 margin-tb">
-        <div id="msg" role="alert" class="alert-success alert-dismissible fade show"></div>
+            <!-- <div id="msg" role="alert" class="alert alert-success alert-dismissible fade show"></div> -->
+            <div id="msg"></div>
             <h1>Order Detials</h1>
+            <a href="{{ route('export') }}" class="btn btn-success">Export Details</a>
         </div>
+        <!-- <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <button class="w-50 btn btn-warning">Import Order Details</button>    
+            <input type="file" name="file" class="form-control"><br>
+        </form> -->
         @if(session()->get('success'))
         <div class="alert alert-success">
             {{ session()->get('success')}}
@@ -66,6 +73,25 @@ $(document).ready( function () {
     });
 });
 </script>
+
+<script>
+var alertPlaceholder = document.getElementById('msg')
+var alertTrigger = document.getElementById('liveAlertBtn')
+
+function alert(message, type) {
+  var wrapper = document.createElement('div')
+  wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+
+  alertPlaceholder.append(wrapper)
+}
+
+if (alertTrigger) {
+  alertTrigger.addEventListener('click', function () {
+    alert(data.message, 'success')
+  })
+}
+</script>
+
 <script>
 $( document ).ready( function() {
     // alert('here');
