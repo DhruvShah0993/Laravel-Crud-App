@@ -26,9 +26,12 @@ class CartController extends Controller
         $user = Auth::user()->id;
         $products = Product::get();
 
-        $count = Cart::where('user_id', $user)->where('carts.status', 0)->count();
-        
-        return view('cart.index', compact('products', 'count'));
+        $carts = Cart::pluck('qty');
+        $total_qty = 0;
+        foreach($carts as $cart){
+            $total_qty  = $total_qty + $cart;
+        }
+        return view('cart.index', compact('products', 'total_qty'));
     }
 
     /**
@@ -67,8 +70,12 @@ class CartController extends Controller
         // dd($request->total_qty);
         $cart->save();
 
-        $count = Cart::where('user_id', auth()->user()->id)->where('carts.status', 0)->count();
-        return response()->json($count);
+        $carts = Cart::pluck('qty');
+        $total_qty = 0;
+        foreach($carts as $cart){
+            $total_qty  = $total_qty + $cart;
+        }
+        return response()->json($total_qty);
     }
     /**
      * Display the specified resource.
@@ -106,12 +113,20 @@ class CartController extends Controller
                 ->get();
 
             $subtotal = 0;
+            $total_qty = 0;
             foreach($carts as $cart){
                 $subtotal  = $cart->price * $cart->qty + $subtotal;
+                $total_qty  = $total_qty + $cart->qty;
             }
-                // dd($carts);
-        return view('cart.total', compact('carts','subtotal'));
+               
+        return view('cart.total', compact('carts','subtotal','total_qty'));
         // alert('hello');
+    }
+
+    public function remove($id)
+    {
+        $cart = Cart::find($id)->delete();
+        return redirect()->route('cart.total');
     }
 
     /**
@@ -167,13 +182,6 @@ class CartController extends Controller
      * @param  \App\Models\Cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cart $cart, $id)
-    {
-        //
-        $cart = Cart::where('id', $id)->delete();
-
-        return redirect()->route('cart.index')->with('success', 'Item removed from the cart');
-    }
 
     public function updateStatus(Request $request)
     {
@@ -197,6 +205,17 @@ class CartController extends Controller
                 $message->from('dhruv1.elsner@gmail.com','DS Shop');
             });
             return response()->json(array('success' => true, 'message' => 'Order Confirmed'));
+        }
+    }
+
+    public function update(Request $request)
+    {
+        if($request->id and $request->quantity)
+        {
+            $cart = session()->get('cart');
+            $cart[$request->id]["quantity"] = $request->quantity;
+            session()->put('cart', $cart);
+            session()->flash('success', 'Item added to the cart successfully');
         }
     }
 }

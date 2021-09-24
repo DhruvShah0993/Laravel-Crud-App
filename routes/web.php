@@ -34,7 +34,7 @@ Route::post('/products/store', [App\Http\Controllers\ProductController::class, '
 
 Route::get('/products/edit/{id}', [App\Http\Controllers\ProductController::class, 'edit'])->name('products.edit');
 
-Route::get('/products/show', [App\Http\Controllers\ProductsController::class, 'show'])->name('products.show');
+Route::get('/products/show', [App\Http\Controllers\ProductController::class, 'show'])->name('products.show');
 
 Route::post('/products/update/{id}', [App\Http\Controllers\ProductController::class, 'update'])->name('products.update');
 
@@ -54,17 +54,19 @@ Route::get('/category/{id}', [App\Http\Controllers\CategoryController::class, 'd
 
 Route::get('/cart/index', [App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
 
+Route::post('/update-cart', [App\Http\Controllers\CartController::class, 'update'])->name('cart.update-cart');
+
 Route::post('/cart/store', [App\Http\Controllers\CartController::class, 'store'])->name('cart.store');
 
 Route::get('/cart/show', [App\Http\Controllers\CartController::class, 'show'])->name('cart.show');
 
 Route::get('/cart/total', [App\Http\Controllers\CartController::class, 'total'])->name('cart.total');
 
+Route::get('/cart/{id}', [App\Http\Controllers\CartController::class, 'remove'])->name('cart.remove');
+
 Route::get('/cart/list', [App\Http\Controllers\CartController::class, 'list'])->name('cart.list');
 
 Route::get('/cart/add', [App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
-
-Route::get('/cart/{id}', [App\Http\Controllers\CartController::class, 'destroy'])->name('cart.destroy');
 
 Route::get('/checkout/index', [App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout.index');
 

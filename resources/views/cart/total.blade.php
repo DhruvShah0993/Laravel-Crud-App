@@ -33,16 +33,17 @@
                     <strong>Qty: </strong>
                     <input type="text" id="qty_{{ $cart->id }}" class="quantity w-25" name="qty" min="1" max="5" value="{{ $cart->qty }}" disabled>
                 </p>
-
+               
                 <!-- Buttons -->
+                <a href="/cart/{{$cart->id}}" id="remove" class="btn btn-danger shadow lift me-1 remove">
+                        Remove
+                </a>
               
             </div>
         </div> <!-- / .row -->
     </div> <!-- / .container -->
 </section>
 @endforeach
-
-
 
 <div class="container">
     <div class="row justify-content-end">
@@ -64,4 +65,3 @@
     </div>
 </div>
 @endsection
-

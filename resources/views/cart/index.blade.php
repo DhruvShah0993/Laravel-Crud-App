@@ -5,11 +5,11 @@
 <div class="container">
     <div class="d-flex justify-content-end">
         <ul>
-        @if ($count == 0)
+        @if ($total_qty == 0)
         <a href="#" onclick="alert('Your cart is empty')" type="button" class="btn btn-warning position-relative shadow lift me-1">
             <i class="fa fa-shopping-cart icon-large"></i> Cart
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    {{ $count }}
+                    {{ $total_qty }}
             <span class="visually-hidden" hidden>unread messages</span>
             </span>
         </a>
@@ -17,7 +17,7 @@
         <a href="{{ route('cart.total') }}" type="button" class="btn btn-warning position-relative shadow lift me-1">
             <i class="fa fa-shopping-cart icon-large"></i> Cart
             <span id="checkout-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    {{ $count }}
+                    {{ $total_qty }}
             <span class="visually-hidden" hidden>unread messages</span>
             </span>
         </a>
@@ -83,21 +83,14 @@ $( document ).ready(function() {
             },
             success: function(data)
             {
-                // alert(data);
+                console.log(data);
                 alert('Item added to the cart');
+                $('#checkout-count').text(data);
             }
         });
     });
 });
 
-// $( document ).ready(function() {
-//     $('.cart').click(function(){
-
-//     $('#checkout-count').text(parseInt($("#checkout-count").text()) + 1);
-
-// });
-
-// }
 
 $(document).ready( function () {
     $('#select_prod').on('change', function() {
